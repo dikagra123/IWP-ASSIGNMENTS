@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colorful Greeting Card</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            color: #ff4081;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff4081, #ff9800);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .card {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            min-height: 150px;
+            transition: 0.5s;
+        }
+
+        .emoji {
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🎉 Create Your Card</h2>
+
+    <input type="text" id="nameInput" placeholder="Enter Name">
+    <input type="text" id="messageInput" placeholder="Enter Message">
+
+    <label>Pick Card Color:</label>
+    <input type="color" id="colorPicker" value="#ff4081">
+
+    <label>Select Font:</label>
+    <select id="fontSelect">
+        <option value="Arial">Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Cursive">Cursive</option>
+        <option value="Comic Sans MS">Comic Sans</option>
+    </select>
+
+    <button onclick="generateCard()">Generate Card 🎁</button>
+
+    <div class="card" id="card" style="background: linear-gradient(45deg,#ff4081,#ff9800)">
+        <div class="emoji">✨🎂💖🎈</div>
+        <h3 id="cardTitle">Your Card Will Appear Here</h3>
+        <p id="cardMessage"></p>
+        <div class="emoji">🎉🌸🎁💫</div>
+    </div>
+</div>
+
+<script>
+function generateCard() {
+    const name = document.getElementById("nameInput").value;
+    const message = document.getElementById("messageInput").value;
+    const color = document.getElementById("colorPicker").value;
+    const font = document.getElementById("fontSelect").value;
+
+    const card = document.getElementById("card");
+    const title = document.getElementById("cardTitle");
+    const cardMessage = document.getElementById("cardMessage");
+
+    if (name === "" || message === "") {
+        alert("Please fill all fields!");
+        return;
+    }
+
+    title.innerHTML = "Dear " + name + " 💖";
+    cardMessage.innerHTML = message + " 🎉";
+
+    card.style.background = "linear-gradient(45deg, " + color + ", #ffffff)";
+    card.style.fontFamily = font;
+}
+</script>
+
+</body>
+</html>
