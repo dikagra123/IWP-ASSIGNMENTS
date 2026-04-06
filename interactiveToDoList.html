@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Task Board</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(-45deg,#6a11cb,#2575fc,#ff758c,#ff7eb3);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.container{
+    width:380px;
+    backdrop-filter: blur(15px);
+    background:rgba(255,255,255,0.15);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    color:white;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:5px;
+}
+
+#datetime{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:15px;
+    opacity:0.8;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+}
+
+button{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:white;
+    font-weight:bold;
+}
+
+ul{
+    list-style:none;
+    margin-top:15px;
+    max-height:200px;
+    overflow-y:auto;
+}
+
+li{
+    background:rgba(255,255,255,0.2);
+    padding:8px;
+    border-radius:10px;
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(-5px)}
+    to{opacity:1; transform:translateY(0)}
+}
+
+.completed span{
+    text-decoration:line-through;
+    opacity:0.6;
+}
+
+.progress-container{
+    background:rgba(255,255,255,0.3);
+    height:8px;
+    border-radius:10px;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:white;
+    transition:0.4s;
+}
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>✨ Smart Task Board</h2>
+    <div id="datetime"></div>
+
+    <div class="input-area">
+        <input type="text" id="taskInput" placeholder="Type a task & press Enter">
+        <button onclick="addTask()">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="footer">
+        <span id="taskCount">0 Tasks</span>
+        <button onclick="clearCompleted()">Clear Done</button>
+    </div>
+</div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("smartTasks")) || [];
+
+const input = document.getElementById("taskInput");
+input.addEventListener("keypress", function(e){
+    if(e.key === "Enter") addTask();
+});
+
+function saveTasks(){
+    localStorage.setItem("smartTasks", JSON.stringify(tasks));
+}
+
+function addTask(){
+    if(input.value.trim()==="") return;
+
+    tasks.push({
+        text: input.value,
+        completed:false
+    });
+    input.value="";
+    saveTasks();
+    render();
+}
+
+function render(){
+    const list = document.getElementById("taskList");
+    list.innerHTML="";
+
+    tasks.forEach((task,index)=>{
+        const li = document.createElement("li");
+        if(task.completed) li.classList.add("completed");
+
+        const span = document.createElement("span");
+        span.textContent = task.text;
+
+        span.onclick = ()=>{
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks();
+            render();
+        };
+
+        const del = document.createElement("button");
+        del.textContent="✖";
+        del.onclick=()=>{
+            tasks.splice(index,1);
+            saveTasks();
+            render();
+        };
+
+        li.appendChild(span);
+        li.appendChild(del);
+        list.appendChild(li);
+    });
+
+    updateProgress();
+}
+
+function updateProgress(){
+    const completed = tasks.filter(t=>t.completed).length;
+    const total = tasks.length;
+    const percent = total===0 ? 0 : (completed/total)*100;
+
+    document.getElementById("progressBar").style.width = percent+"%";
+    document.getElementById("taskCount").textContent =
+        total + " Tasks | " + completed + " Done";
+}
+
+function clearCompleted(){
+    tasks = tasks.filter(t=>!t.completed);
+    saveTasks();
+    render();
+}
+
+function updateDateTime(){
+    const now = new Date();
+    document.getElementById("datetime").textContent =
+        now.toLocaleString();
+}
+
+setInterval(updateDateTime,1000);
+updateDateTime();
+render();
+</script>
+
+</body>
+</html>

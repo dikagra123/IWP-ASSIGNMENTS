@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Creative Portfolio</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#641d32;   /* FIXED BACKGROUND COLOR */
+    color:white;
+}
+
+/* Header */
+header{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.3);
+    position:sticky;
+    top:0;
+}
+
+header h2{
+    letter-spacing:2px;
+}
+
+nav a{
+    margin-left:20px;
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#ffd369;
+}
+
+/* Sections */
+section{
+    padding:80px 10%;
+}
+
+/* Hero */
+.hero{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    height:90vh;
+}
+
+.hero h1{
+    font-size:50px;
+}
+
+.hero span{
+    color:#ffd369;
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    background:#ffd369;
+    color:black;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:white;
+}
+
+/* Projects */
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:15px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    background:rgba(255,255,255,0.2);
+}
+
+/* Skills */
+.skills .bar{
+    margin-bottom:15px;
+}
+
+.bar span{
+    display:block;
+    margin-bottom:5px;
+}
+
+.progress{
+    height:8px;
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    background:#ffd369;
+}
+
+/* Contact */
+.contact form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input,textarea{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    padding:20px;
+    background:rgba(0,0,0,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>MyPortfolio</h2>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <h1>Hello, I'm <span id="name"></span></h1>
+    <p>A passionate Web Developer creating interactive experiences.</p>
+    <button class="btn">Download CV</button>
+    <a href="assignments\My Resume.pdf" download class="btn">Download CV</a>
+</section>
+
+<section id="projects">
+    <h2>My Projects</h2>
+    <div class="projects">
+        <div class="card">
+            <h3>Project One</h3>
+            <p>Seven Wonders</p>
+        </div>
+        <div class="card">
+            <h3>Project Two</h3>
+            <p>Fake news detection</p>
+        </div>
+        <div class="card">
+            <h3>Project Three</h3>
+            <p>Financial advisor and expence tracker</p>
+        </div>
+    </div>
+</section>
+
+<section class="skills" id="skills">
+    <h2>Skills</h2>
+    <div class="bar">
+        <span>HTML</span>
+        <div class="progress"><div style="width:90%"></div></div>
+    </div>
+    <div class="bar">
+        <span>CSS</span>
+        <div class="progress"><div style="width:85%"></div></div>
+    </div>
+    <div class="bar">
+        <span>JavaScript</span>
+        <div class="progress"><div style="width:75%"></div></div>
+    </div>
+     <div class="bar">
+        <span>Java</span>
+        <div class="progress"><div style="width:75%"></div></div>
+</section>
+
+<section class="contact" id="contact">
+    <h2>Contact Me</h2>
+    <form>
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <textarea rows="4" placeholder="Your Message"></textarea>
+        <button class="btn">Send Message</button>
+    </form>
+</section>
+
+<footer>
+    © 2026 MyPortfolio | Designed with ❤️
+</footer>
+
+<script>
+// Typing Effect
+const text = "Diksha Agrawal";
+let i = 0;
+function typeEffect(){
+    if(i < text.length){
+        document.getElementById("name").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeEffect,100);
+    }
+}
+typeEffect();
+</script>
+
+</body>
+</html>
